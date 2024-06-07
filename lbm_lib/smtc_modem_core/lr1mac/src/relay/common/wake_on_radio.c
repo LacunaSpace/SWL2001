@@ -276,7 +276,7 @@ uint32_t wor_compute_mic_ack( const wor_ack_mic_info_t* mic_info, const uint8_t*
     buffer_b0[14] = 0x00;
     buffer_b0[15] = 0x07;
 
-    uint8_t tmp[13];
+    uint8_t tmp[16];
     memcpy( tmp, ack_uplink_enc, 3 );
 
     const uint32_t freq_step = mic_info->frequency_hz / 100;
@@ -291,6 +291,9 @@ uint32_t wor_compute_mic_ack( const wor_ack_mic_info_t* mic_info, const uint8_t*
     tmp[10] = ( uint8_t )( mic_info->dev_addr >> 8 );
     tmp[11] = ( uint8_t )( mic_info->dev_addr >> 16 );
     tmp[12] = ( uint8_t )( mic_info->dev_addr >> 24 );
+    tmp[13] = 0;
+    tmp[14] = 0;
+    tmp[15] = 0;
 
     return crypto_relay_compute_mic( wor_s_int_key, buffer_b0, tmp, sizeof( tmp ) );
 }
