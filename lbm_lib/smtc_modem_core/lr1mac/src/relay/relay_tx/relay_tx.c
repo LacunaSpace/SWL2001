@@ -584,6 +584,7 @@ void smtc_relay_tx_data_receive_on_rxr( uint8_t relay_stack_id )
 static bool relay_tx_check_decode_ack( uint8_t relay_stack_id, wor_ack_infos_t* ack )
 {
     relay_tx_t* infos = &( relay_tx_declare[relay_stack_id] );
+    lr1_stack_mac_t* lr1mac_obj = lorawan_api_stack_mac_get( relay_stack_id );
 
     // SMTC_MODEM_HAL_TRACE_ARRAY( "RX WOR ACK", infos->buffer, infos->buffer_len );
 
@@ -599,8 +600,8 @@ static bool relay_tx_check_decode_ack( uint8_t relay_stack_id, wor_ack_infos_t* 
     wor_ack_mic_info_t ack_mic_info = {
         .dev_addr     = lorawan_api_devaddr_get( relay_stack_id ),
         .wfcnt        = infos->fcnt,
-        .frequency_hz = conf->freq_hz,
-        .datarate     = conf->dr,
+        .frequency_hz = lr1mac_obj->tx_frequency,
+        .datarate     = lr1mac_obj->tx_data_rate
     };
 
     // SMTC_MODEM_HAL_TRACE_PRINTF( "frequency_hz = %d, infos->last_ch_idx = %d ,  .dev_addr   = %x, datarate = %d\n",
@@ -617,6 +618,7 @@ static bool relay_tx_check_decode_ack( uint8_t relay_stack_id, wor_ack_infos_t* 
     }
 
     ack_mic_info.frequency_hz = conf->ack_freq_hz;
+    ack_mic_info.datarate = conf->dr;
 
     wor_decrypt_ack( infos->buffer, &ack_mic_info, ack, NULL );
     return true;
