@@ -94,6 +94,8 @@ int main( void )
     main_lctt_certif( );
 #elif MAKEFILE_APP == RELAY_TX
     main_periodical_uplink( );
+#elif MAKEFILE_APP == RELAY_LACUNA
+    main_periodical_uplink( );
 #else
 #error "Unknown application" ## MAKEFILE_APP
 #endif
