@@ -340,15 +340,9 @@ uint8_t wor_convert_cadtorx( const wor_ack_cad_to_rx_t cad_to_rx )
     return 0;
 }
 
-void wor_derive_root_skey( uint32_t dev_addr )
+void wor_derive_wor_skeys( uint32_t dev_addr )
 {
     uint8_t block[16];
-    memset( block, 0, sizeof( block ) );
-    block[0] = 0x01;
-
-    SMTC_MODEM_HAL_PANIC_ON_FAILURE( smtc_secure_element_derive_and_store_key( block, SMTC_SE_NWK_S_ENC_KEY,
-                                                                               SMTC_RELAY_ROOT_WOR_S_KEY,
-                                                                               RELAY_STACK_ID ) == SMTC_SE_RC_SUCCESS );
 
     memset( block, 0, sizeof( block ) );
     block[0] = 0x01;
@@ -370,6 +364,25 @@ void wor_derive_root_skey( uint32_t dev_addr )
     SMTC_MODEM_HAL_PANIC_ON_FAILURE( smtc_secure_element_derive_and_store_key( block, SMTC_RELAY_ROOT_WOR_S_KEY,
                                                                                SMTC_RELAY_WOR_S_ENC_KEY,
                                                                                RELAY_STACK_ID ) == SMTC_SE_RC_SUCCESS );
+}
+
+void wor_derive_root_skey( uint32_t dev_addr )
+{
+    uint8_t block[16];
+    memset( block, 0, sizeof( block ) );
+    block[0] = 0x01;
+
+    SMTC_MODEM_HAL_PANIC_ON_FAILURE( smtc_secure_element_derive_and_store_key( block, SMTC_SE_NWK_S_ENC_KEY,
+                                                                               SMTC_RELAY_ROOT_WOR_S_KEY,
+                                                                               RELAY_STACK_ID ) == SMTC_SE_RC_SUCCESS );
+	wor_derive_wor_skeys( dev_addr );
+}
+
+void wor_debug_set_root_skey ( uint32_t dev_addr, uint8_t *wor_skey )
+{
+    SMTC_MODEM_HAL_PANIC_ON_FAILURE( smtc_secure_element_set_key( SMTC_RELAY_ROOT_WOR_S_KEY, wor_skey, RELAY_STACK_ID ) == SMTC_SE_RC_SUCCESS );
+
+    wor_derive_wor_skeys( dev_addr );
 }
 
 /*

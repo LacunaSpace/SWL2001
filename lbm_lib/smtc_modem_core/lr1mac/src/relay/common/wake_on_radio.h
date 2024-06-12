@@ -230,6 +230,15 @@ uint32_t wor_extract_mic_ack( const uint8_t* wor_ack_buffer );
 // Generic WOR function
 
 /**
+ * @brief Derive relay session keys from root wor key and store in crypto module
+ *
+ * Only used in relay TX.
+ * Key are stored directly in crypto module.
+ * @param[in]   dev_addr    DevAddr of the device
+ */
+void wor_derive_wor_skeys( uint32_t dev_addr );
+
+/**
  * @brief Allow a device to derived relay session key from its network session key
  *
  * Only used in relay TX.
@@ -237,6 +246,16 @@ uint32_t wor_extract_mic_ack( const uint8_t* wor_ack_buffer );
  * @param[in]   dev_addr    DevAddr of the device
  */
 void wor_derive_root_skey( uint32_t dev_addr );
+
+/**
+ * @brief Allow a device to set root wor key directly (for debugging only)
+ *
+ * Only used in relay TX.
+ * Key are stored directly in crypto module.
+ * @param[in]   dev_addr    DevAddr of the device
+ * @param[in]   wor_skey    WOR root key of the device
+ */
+void wor_debug_set_root_skey ( uint32_t dev_addr, uint8_t *wor_skey );
 
 /**
  * @brief Convert enum CAD periodicity in ms value
