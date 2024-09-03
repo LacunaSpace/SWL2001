@@ -59,7 +59,9 @@
 #define DEFAULT_PPM_RELAY ( 40 )
 #define DEFAULT_CAD_TO_RX ( 8 )
 #define DEFAULT_CAD_PERIOD ( WOR_CAD_PERIOD_1S )
-#define DEFAULT_ACTIVATION_MODE ( RELAY_TX_ACTIVATION_MODE_ED_CONTROLED )
+// prevent TTN from changing our alternate frequencies
+//#define DEFAULT_ACTIVATION_MODE ( RELAY_TX_ACTIVATION_MODE_ED_CONTROLED )
+#define DEFAULT_ACTIVATION_MODE ( RELAY_TX_ACTIVATION_MODE_ENABLE )
 
 /*
  * -----------------------------------------------------------------------------

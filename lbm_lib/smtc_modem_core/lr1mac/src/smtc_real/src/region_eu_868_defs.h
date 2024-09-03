@@ -159,7 +159,11 @@ static const uint8_t SYNC_WORD_LR_FHSS_EU_868[] = { 0x2C, 0x0F, 0x79, 0x95 };
 /**
  * Default frequencies at boot
  */
-static const uint32_t default_freq_eu_868[] = { 868100000, 868300000, 868500000 };
+ 
+// use alternate frequencies to prevent TTN gateways from picking up transmissions 
+// see LoRaWAN® Regional Parameters RP002-1.0.4 paragraph 2.3.2.1
+// static const uint32_t default_freq_eu_868[] = { 868100000, 868300000, 868500000 };
+static const uint32_t default_freq_eu_868[] = { 865100000, 865300000, 865500000 };
 
 /**
  * Up/Down link data rates offset definition
