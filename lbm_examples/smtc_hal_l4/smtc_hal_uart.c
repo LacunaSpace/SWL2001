@@ -116,7 +116,7 @@ void trace_uart_init( void )
     huart2.Init.WordLength             = UART_WORDLENGTH_8B;
     huart2.Init.StopBits               = UART_STOPBITS_1;
     huart2.Init.Parity                 = UART_PARITY_NONE;
-    huart2.Init.Mode                   = UART_MODE_TX;
+    huart2.Init.Mode                   = UART_MODE_TX_RX;
     huart2.Init.HwFlowCtl              = UART_HWCONTROL_NONE;
     huart2.Init.OverSampling           = UART_OVERSAMPLING_16;
     huart2.Init.OneBitSampling         = UART_ONE_BIT_SAMPLE_DISABLE;
@@ -152,6 +152,21 @@ void hw_modem_uart_tx( uint8_t* buff, uint8_t len )
 void trace_uart_tx( uint8_t* buff, uint8_t len )
 {
     HAL_UART_Transmit( &huart2, ( uint8_t* ) buff, len, 0xffffff );
+}
+
+bool trace_uart_getc( uint8_t* c )
+{
+    return (HAL_UART_Receive( &huart2, c, 1, 0 ) == HAL_OK);
+}
+
+uint32_t trace_uart_get_error_flags( void )
+{
+    return (READ_REG(huart2.Instance->ISR))&((uint32_t)(USART_ISR_PE | USART_ISR_FE | USART_ISR_ORE | USART_ISR_NE));
+}
+
+void trace_uart_clear_error_flags( void)
+{
+    __HAL_USART_CLEAR_FLAG(&huart2, USART_CLEAR_OREF | USART_CLEAR_NEF | USART_CLEAR_PEF | USART_CLEAR_FEF);
 }
 
 void HAL_UART_MspInit( UART_HandleTypeDef* huart )

@@ -77,6 +77,10 @@ void hw_modem_uart_dma_stop_rx( void );
 
 void hw_modem_uart_tx( uint8_t* buff, uint8_t len );
 void trace_uart_tx( uint8_t* buff, uint8_t len );
+bool trace_uart_getc( uint8_t* c );
+uint32_t trace_uart_get_error_flags( void );
+void trace_uart_clear_error_flags( void );
+
 
 #ifdef __cplusplus
 }

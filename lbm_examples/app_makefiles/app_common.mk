@@ -297,6 +297,13 @@ APP_C_SOURCES += \
 LBM_BUILD_OPTIONS += RELAY_TX_ENABLE=yes
 endif
 
+ifeq ($(MODEM_APP),RELAY_WORKSHOP_LACUNA)
+APP_C_SOURCES += \
+	main_examples/main_relay_workshop_lacuna.c
+
+LBM_BUILD_OPTIONS += RELAY_TX_ENABLE=yes
+endif
+
 ifeq ($(MODEM_APP),PORTING_TESTS)
 APP_C_SOURCES += \
 	main_examples/main_porting_tests.c

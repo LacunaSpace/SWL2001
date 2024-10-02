@@ -96,6 +96,8 @@ int main( void )
     main_periodical_uplink( );
 #elif MAKEFILE_APP == RELAY_LACUNA
     main_periodical_uplink( );
+#elif MAKEFILE_APP == RELAY_WORKSHOP_LACUNA
+    main_periodical_uplink( );
 #else
 #error "Unknown application" ## MAKEFILE_APP
 #endif
